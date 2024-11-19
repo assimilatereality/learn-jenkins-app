@@ -2,10 +2,7 @@ pipeline {
     agent any
 
     stages {
-        /* This is a comment
-        line 1
-        line2
-        */
+        /* 
         stage('Build') {
             agent {
                 docker {
@@ -23,7 +20,7 @@ pipeline {
                     ls -la
                 '''
             }
-        }
+        }*/
         stage('Test') {
             agent {
                 docker {
@@ -66,7 +63,7 @@ pipeline {
             sh 'find . -name "junit.xml"'
             junit 'jest-results/junit.xml'
             // Archive the test results
-            archiveArtifacts artifacts: 'test-results/**/*', fingerprint: true
+            archiveArtifacts artifacts: 'jest-results/**/*', fingerprint: true
         }
     }
 }
