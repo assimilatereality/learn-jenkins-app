@@ -19,6 +19,14 @@ pipeline {
                     ls -la
                 '''
             }
+        stage('Test') {
+            steps {
+                echo 'Testing the new build ...'
+                sh '''test -f build/index.htm
+                npm test -a
+                '''
+            }
+        }
         }
     }
 }
