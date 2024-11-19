@@ -19,6 +19,7 @@ pipeline {
                     ls -la
                 '''
             }
+        }
         stage('Test') {
             steps {
                 echo 'Testing the new build ...'
@@ -26,7 +27,6 @@ pipeline {
                 npm test -a
                 '''
             }
-        }
         }
     }
 }
