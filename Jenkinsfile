@@ -43,7 +43,10 @@ pipeline {
 
     post {
         always {
-            junit '**/test-results/junit.xml'
+            sh 'pwd'
+            sh 'ls -la'
+            sh 'find . -name "junit.xml"'
+            junit 'test-results/junit.xml'
         }
     }
 }
