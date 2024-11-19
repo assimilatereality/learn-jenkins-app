@@ -47,6 +47,8 @@ pipeline {
             sh 'ls -la'
             sh 'find . -name "junit.xml"'
             junit 'test-results/junit.xml'
+            // Archive the test results
+            archiveArtifacts artifacts: 'test-results/**/*', fingerprint: true
         }
     }
 }
