@@ -4,6 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = 'c99fc359-9dc2-4432-a32d-39dcf2cbc214'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
+
     }
 
     stages {
@@ -88,7 +89,7 @@ pipeline {
                                 keepAll: true, 
                                 reportDir: 'playwright-report', 
                                 reportFiles: 'index.html', 
-                                reportName: 'Playwright HTML Report', 
+                                reportName: 'Playwright Local Report', 
                                 reportTitles: '', 
                                 useWrapperFileDirectly: true
                             ])
@@ -113,6 +114,46 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
+            }
+        }
+
+        stage('Prod E2E') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = 'https://ornate-meerkat-6ddddd.netlify.app'
+            }
+
+            steps {
+                echo 'Test stage'
+                sh '''
+                    npx playwright test --reporter=html
+                '''
+            }
+            post {
+                always {
+
+                    /* Required permissions to see output - run in Jenkins > Manage Configurations > Scripts console:
+                    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "sandbox allow-scripts;")
+                    or more secure per Claude:
+                    System.setProperty("hudson.model.DirectoryBrowserSupport.CSP", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';")
+                    */
+                    publishHTML([
+                        allowMissing: false, 
+                        alwaysLinkToLastBuild: true, 
+                        keepAll: true, 
+                        reportDir: 'playwright-report', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Playwright E2E Report', 
+                        reportTitles: '', 
+                        useWrapperFileDirectly: true
+                    ])
+                }
             }
         }
     }
