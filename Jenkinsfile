@@ -46,6 +46,7 @@ pipeline {
                     }
                     post {
                         always {
+                            echo 'Small change'
                             sh 'pwd'
                             sh 'ls -la'
                             sh 'find . -name "junit.xml"'
