@@ -63,7 +63,7 @@ pipeline {
             sh 'find . -name "junit.xml"'
             junit 'jest-results/junit.xml'
             // Archive the test results
-            archiveArtifacts artifacts: 'jest-results/**/*', fingerprint: true
+            //archiveArtifacts artifacts: 'jest-results/**/*', fingerprint: true
             //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
         }
