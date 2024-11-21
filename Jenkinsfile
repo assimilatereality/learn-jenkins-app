@@ -201,7 +201,8 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://ornate-meerkat-6ddddd.netlify.app'
+                CI_ENVIRONMENT_URL = 'YOUR NETLIFY URL'
+                /*'https://ornate-meerkat-6ddddd.netlify.app'*/
             }
 
             steps {
